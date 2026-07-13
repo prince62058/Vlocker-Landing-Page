@@ -20,6 +20,8 @@ function PaymentContent() {
   const searchParams = useSearchParams();
   const autoPay = searchParams.get("autoPay") === "true";
   const amountFromUrl = searchParams.get("amount");
+  const payFull = searchParams.get("payFull") === "true";
+  const installmentIdFromUrl = searchParams.get("installmentId");
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const paymentLoadingRef = useRef(false);
 
@@ -129,7 +131,11 @@ function PaymentContent() {
         },
         body: JSON.stringify({ 
           loanId: loan._id,
-          amount: amountOverride
+          amount: amountOverride,
+          // Pay a specific EMI (allows proactive / early payment before due date).
+          ...(installmentIdFromUrl ? { installmentId: installmentIdFromUrl } : {}),
+          // Foreclosure: pay the entire remaining loan in one go.
+          ...(payFull ? { payFull: true } : {}),
         }),
       });
       const data = await res.json();
@@ -165,6 +171,10 @@ function PaymentContent() {
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_signature: response.razorpay_signature,
               loanId: loan._id,
+              ...(installmentIdFromUrl
+                ? { installmentId: installmentIdFromUrl }
+                : {}),
+              ...(payFull ? { payFull: true } : {}),
             }),
           });
           const verifyData = await verifyRes.json();
