@@ -10,7 +10,7 @@ export default function AboutDownload() {
             management and device security.
           </p>
 
-          <a href="https://app.vlocker.in/VLockerlatest.apk" download>
+          <a href="https://app.vlocker.in/VLocker.apk" download>
             <button className="bg-linear-to-r from-primary to-secondary text-white px-8 py-3 rounded-lg font-medium hover:from-secondary hover:to-primary hover:bg-liner-to-l  cursor-pointer">
               Download Now
             </button>
