@@ -9,6 +9,7 @@ import Logo from "./logo";
 import HeaderLink from "./navigation/HeaderLink";
 import MobileHeaderLink from "./navigation/MobileHeaderLink";
 import { useRouter } from "next/navigation";
+import { getStorageItem, removeStorageItem } from "@/lib/utils/storage";
 
 const Header: React.FC = () => {
   const [navbarOpen, setNavbarOpen] = useState(false);
@@ -43,9 +44,13 @@ const Header: React.FC = () => {
 
   useEffect(() => {
     const checkAuth = () => {
-      const storedUser = localStorage.getItem("user");
+      const storedUser = getStorageItem("user");
       if (storedUser) {
-        setUser(JSON.parse(storedUser));
+        try {
+          setUser(JSON.parse(storedUser));
+        } catch (e) {
+          setUser(null);
+        }
       } else {
         setUser(null);
       }
@@ -73,8 +78,8 @@ const Header: React.FC = () => {
   }, [isSignInOpen, navbarOpen]);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    removeStorageItem("token");
+    removeStorageItem("user");
     setUser(null);
     router.push("/");
     window.location.reload();
@@ -141,8 +146,12 @@ const Header: React.FC = () => {
                     onClick={() => {
                       setIsSignInOpen(false);
                       // Trigger auth re-check after modal closes (in case of successful login)
-                      const storedUser = localStorage.getItem("user");
-                      if (storedUser) setUser(JSON.parse(storedUser));
+                      const storedUser = getStorageItem("user");
+                      if (storedUser) {
+                        try {
+                          setUser(JSON.parse(storedUser));
+                        } catch (e) {}
+                      }
                     }}
                     className="absolute top-0 right-0 mr-8 mt-8 cursor-pointer"
                     aria-label="Close Sign In Modal"

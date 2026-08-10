@@ -4,6 +4,7 @@ import { useEffect, useState, Suspense } from "react";
 import { BASE_URL } from "@/lib/utils/api";
 import EmiList from "./components/EmiList";
 import { useRouter, useSearchParams } from "next/navigation";
+import { getStorageItem } from "@/lib/utils/storage";
 
 function TransactionDetailsContent() {
   const searchParams = useSearchParams();
@@ -21,7 +22,7 @@ function TransactionDetailsContent() {
     }
 
     const fetchLoanDetails = async () => {
-      const token = localStorage.getItem("token");
+      const token = getStorageItem("token");
       if (!token) {
         router.push("/");
         return;

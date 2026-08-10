@@ -7,6 +7,18 @@ import Footer from './components/layout/footer'
 import Script from 'next/script'
 import ToasterContext from './api/contex/ToasetContex'
 
+// Polyfill globalThis.localStorage for Node 22+ SSR compatibility
+if (typeof globalThis !== 'undefined' && (!globalThis.localStorage || typeof globalThis.localStorage.getItem !== 'function')) {
+  (globalThis as any).localStorage = {
+    getItem: () => null,
+    setItem: () => {},
+    removeItem: () => {},
+    clear: () => {},
+    key: () => null,
+    length: 0,
+  };
+}
+
 const font = Inter({ subsets: ['latin'] })
 
 export default function RootLayout({

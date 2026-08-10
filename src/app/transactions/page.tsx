@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import TransactionsTable from "./TransactionsTable";
 import { useRouter } from "next/navigation";
+import { getStorageItem } from "@/lib/utils/storage";
 
 export default function TransactionsPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -11,7 +12,7 @@ export default function TransactionsPage() {
   const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = getStorageItem("token");
     setIsLoggedIn(!!token);
     setChecking(false);
   }, []);

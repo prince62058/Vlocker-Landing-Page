@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { BASE_URL } from "@/lib/utils/api";
+import { getStorageItem } from "@/lib/utils/storage";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -15,7 +16,7 @@ export default function TransactionsTable() {
 
   useEffect(() => {
     const fetchLoans = async () => {
-      const token = localStorage.getItem("token");
+      const token = getStorageItem("token");
       if (!token) {
         setLoading(false);
         setError("Please sign in to view your transactions.");
@@ -86,7 +87,7 @@ export default function TransactionsTable() {
     return (
       <div className="bg-tablebg p-10 text-center text-white border border-red-500/50 rounded-2xl">
         <p className="text-red-400 mb-4">{error}</p>
-        {!localStorage.getItem("token") && (
+        {!getStorageItem("token") && (
           <button 
             onClick={() => window.location.reload()}
             className="bg-primary text-white px-6 py-2 rounded-lg text-sm"

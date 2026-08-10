@@ -4,11 +4,12 @@
 import { Emi } from "@/app/types/emi";
 import { BASE_URL } from "@/lib/utils/api";
 import { toast } from "react-hot-toast";
+import { getStorageItem } from "@/lib/utils/storage";
 
 export default function EmiCard({ emi }: { emi: Emi }) {
 
   const handlePayNow = async () => {
-    const token = localStorage.getItem("token");
+    const token = getStorageItem("token");
     if (!token) {
       alert("Please login again to continue.");
       return;

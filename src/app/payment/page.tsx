@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState, useRef, Suspense } from "react";
-import { BASE_URL } from "@/lib/utils/api";
 import { useRouter, useSearchParams } from "next/navigation";
+import { BASE_URL } from "@/lib/utils/api";
+import { getStorageItem, removeStorageItem } from "@/lib/utils/storage";
 
 // Extend window object for Razorpay
 declare global {
@@ -27,8 +28,8 @@ function PaymentContent() {
 
   useEffect(() => {
     const fetchLoanDetails = async () => {
-      const token = localStorage.getItem("token");
-      const userStr = localStorage.getItem("user");
+      const token = getStorageItem("token");
+      const userStr = getStorageItem("user");
       
       if (!token || !userStr) {
         const params = searchParams.toString();
@@ -36,7 +37,12 @@ function PaymentContent() {
         return;
       }
 
-      const userData = JSON.parse(userStr);
+      let userData: any = {};
+      try {
+        userData = JSON.parse(userStr);
+      } catch (e) {
+        userData = {};
+      }
       let loanId = userData.loanId;
 
       // If loanId is missing from userData, try to fetch all loans and pick the first one
@@ -118,7 +124,7 @@ function PaymentContent() {
   }, [autoPay, loan, loading, autoPayTriggered, amountFromUrl]);
 
   const handlePayment = async (amountOverride?: string) => {
-    const token = localStorage.getItem("token");
+    const token = getStorageItem("token");
     if (!token || !loan) return;
 
     try {
@@ -231,8 +237,8 @@ function PaymentContent() {
             </a>
             <button 
               onClick={() => {
-                localStorage.removeItem("token");
-                localStorage.removeItem("user");
+                removeStorageItem("token");
+                removeStorageItem("user");
                 router.push("/");
               }}
               className="w-full bg-white/10 hover:bg-white/15 text-white/80 hover:text-white font-bold py-3 px-6 rounded-xl text-sm border border-white/10 transition-all"

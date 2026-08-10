@@ -3,6 +3,7 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import { toast } from 'react-hot-toast'
 import { BASE_URL } from '@/lib/utils/api'
+import { getStorageItem } from '@/lib/utils/storage'
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -31,17 +32,19 @@ const ContactForm = () => {
     }))
   }
   const reset = () => {
-    formData.firstname = ''
-    formData.lastname = ''
-    formData.email = ''
-    formData.phnumber = ''
-    formData.Message = ''
+    setFormData({
+      firstname: '',
+      lastname: '',
+      email: '',
+      phnumber: '',
+      Message: '',
+    })
   }
   const handleSubmit = async (e: any) => {
     e.preventDefault()
     setLoader(true)
 
-    const token = localStorage.getItem("token");
+    const token = getStorageItem("token");
     const headers: any = { 'Content-type': 'application/json' };
     if (token) {
       headers['Authorization'] = `Bearer ${token}`;

@@ -7,6 +7,7 @@ import { BASE_URL } from "@/lib/utils/api";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { Icon } from "@iconify/react";
+import { setStorageItem } from "@/lib/utils/storage";
 
 const Signin = ({ onSuccess }: { onSuccess?: () => void }) => {
   const [phone, setPhone] = useState("");
@@ -105,8 +106,8 @@ const Signin = ({ onSuccess }: { onSuccess?: () => void }) => {
       }
 
       if (data.success) {
-        localStorage.setItem("token", data.data.token);
-        localStorage.setItem("user", JSON.stringify(data.data));
+        setStorageItem("token", data.data.token);
+        setStorageItem("user", JSON.stringify(data.data));
         toast.success("Login successful!");
         onSuccess?.();
         const redirectUrl = autoPay 
