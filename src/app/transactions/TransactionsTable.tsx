@@ -59,7 +59,30 @@ export default function TransactionsTable() {
     );
   }
 
+  const isBanned = error && (error.toLowerCase().includes("suspended") || error.toLowerCase().includes("banned") || error.toLowerCase().includes("deactivated"));
+
   if (error) {
+    if (isBanned) {
+      return (
+        <div className="bg-tablebg/80 backdrop-blur-xl p-8 text-center text-white border border-red-500/40 rounded-3xl shadow-2xl shadow-red-500/10 max-w-lg mx-auto my-6">
+          <div className="mx-auto w-16 h-16 rounded-2xl bg-red-500/20 border border-red-500/40 flex items-center justify-center text-3xl mb-4 text-red-400">
+            ⛔
+          </div>
+          <span className="inline-block px-3 py-1 bg-red-500/20 border border-red-500/30 text-red-300 text-xs font-black uppercase tracking-wider rounded-full mb-3">
+            Access Denied
+          </span>
+          <h3 className="text-xl font-black mb-2">Account Suspended</h3>
+          <p className="text-red-300/90 text-sm mb-6 bg-red-950/40 border border-red-500/20 rounded-xl p-3">{error}</p>
+          <a
+            href="mailto:support@vlocker.in?subject=Transactions%20Account%20Suspension%20Inquiry"
+            className="inline-block bg-gradient-to-r from-red-600 to-rose-600 hover:brightness-110 text-white font-bold py-3 px-6 rounded-xl text-sm transition-all shadow-lg shadow-red-600/30"
+          >
+            Contact Support
+          </a>
+        </div>
+      );
+    }
+
     return (
       <div className="bg-tablebg p-10 text-center text-white border border-red-500/50 rounded-2xl">
         <p className="text-red-400 mb-4">{error}</p>
@@ -68,7 +91,7 @@ export default function TransactionsTable() {
             onClick={() => window.location.reload()}
             className="bg-primary text-white px-6 py-2 rounded-lg text-sm"
           >
-            Sign In
+            Refresh
           </button>
         )}
       </div>

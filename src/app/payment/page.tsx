@@ -200,10 +200,47 @@ function PaymentContent() {
     }
   };
 
+  const isBanned = error && (error.toLowerCase().includes("suspended") || error.toLowerCase().includes("banned") || error.toLowerCase().includes("deactivated"));
+
   if (loading) {
     return (
       <div className="min-h-screen bg-body-bg flex items-center justify-center text-white">
         <p>Loading your loan details...</p>
+      </div>
+    );
+  }
+
+  if (isBanned) {
+    return (
+      <div className="min-h-screen bg-body-bg flex flex-col items-center justify-center text-white p-4">
+        <div className="max-w-md w-full bg-tablebg/80 backdrop-blur-xl border border-red-500/40 rounded-3xl p-8 text-center shadow-2xl shadow-red-500/10">
+          <div className="mx-auto w-16 h-16 rounded-2xl bg-red-500/20 border border-red-500/40 flex items-center justify-center text-3xl mb-4 text-red-400">
+            ⛔
+          </div>
+          <span className="inline-block px-3 py-1 bg-red-500/20 border border-red-500/30 text-red-300 text-xs font-black uppercase tracking-wider rounded-full mb-3">
+            Access Denied
+          </span>
+          <h2 className="text-2xl font-black text-white mb-2">Account Suspended</h2>
+          <p className="text-red-300/90 text-sm mb-6 bg-red-950/40 border border-red-500/20 rounded-xl p-3">{error}</p>
+          <div className="space-y-3">
+            <a
+              href="mailto:support@vlocker.in?subject=Payment%20Account%20Suspension%20Inquiry"
+              className="w-full inline-block bg-gradient-to-r from-red-600 to-rose-600 hover:brightness-110 text-white font-bold py-3 px-6 rounded-xl text-sm transition-all shadow-lg shadow-red-600/30"
+            >
+              Contact Support
+            </a>
+            <button 
+              onClick={() => {
+                localStorage.removeItem("token");
+                localStorage.removeItem("user");
+                router.push("/");
+              }}
+              className="w-full bg-white/10 hover:bg-white/15 text-white/80 hover:text-white font-bold py-3 px-6 rounded-xl text-sm border border-white/10 transition-all"
+            >
+              Sign Out & Go to Home
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
