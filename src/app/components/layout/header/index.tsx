@@ -5,6 +5,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import Signin from "../../auth/sign-in";
+import QuickBanModal from "../../admin/QuickBanModal";
 import Logo from "./logo";
 import HeaderLink from "./navigation/HeaderLink";
 import MobileHeaderLink from "./navigation/MobileHeaderLink";
@@ -15,6 +16,7 @@ const Header: React.FC = () => {
   const [navbarOpen, setNavbarOpen] = useState(false);
   const [sticky, setSticky] = useState(false);
   const [isSignInOpen, setIsSignInOpen] = useState(false);
+  const [isBanModalOpen, setIsBanModalOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
   const router = useRouter();
 
@@ -101,7 +103,17 @@ const Header: React.FC = () => {
               <HeaderLink key={index} item={item} />
             ))}
           </nav>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            {/* Quick Ban Option Button */}
+            <button
+              onClick={() => setIsBanModalOpen(true)}
+              className="flex items-center gap-1.5 bg-red-500/15 hover:bg-red-500/25 text-red-300 hover:text-red-200 border border-red-500/30 duration-300 px-3.5 py-2 rounded-xl text-xs md:text-sm font-bold shadow-md shadow-red-500/10 cursor-pointer"
+              title="Admin User Ban / Status Option"
+            >
+              <Icon icon="solar:shield-warning-bold" className="text-base text-red-400" />
+              <span>Ban Option</span>
+            </button>
+
             {user ? (
               <div className="hidden lg:flex items-center gap-4">
                 <span className="text-white font-medium">
@@ -109,14 +121,14 @@ const Header: React.FC = () => {
                 </span>
                 <button
                   onClick={handleLogout}
-                  className="bg-red-500/20 text-red-400 border border-red-500/50 hover:bg-red-500 hover:text-white duration-300 px-6 py-2 rounded-lg text-sm"
+                  className="bg-red-500/20 text-red-400 border border-red-500/50 hover:bg-red-500 hover:text-white duration-300 px-6 py-2 rounded-lg text-sm cursor-pointer"
                 >
                   Logout
                 </button>
               </div>
             ) : (
               <button
-                className="hidden lg:block bg-linear-to-r from-primary to-secondary hover:from-secondary hover:to-primary text-white duration-300 px-6 py-3 rounded-lg"
+                className="hidden lg:block bg-linear-to-r from-primary to-secondary hover:from-secondary hover:to-primary text-white duration-300 px-6 py-2.5 rounded-xl font-bold cursor-pointer"
                 onClick={() => {
                   setIsSignInOpen(true);
                 }}
@@ -128,7 +140,7 @@ const Header: React.FC = () => {
             {/* Mobile Hamburger */}
             <button
               onClick={() => setNavbarOpen(true)}
-              className="block lg:hidden p-2 rounded-lg"
+              className="block lg:hidden p-2 rounded-lg cursor-pointer"
               aria-label="Open menu"
             >
               <span className="block w-6 h-0.5 bg-white"></span>
@@ -140,7 +152,7 @@ const Header: React.FC = () => {
               <div className="fixed top-0 left-0 w-full h-full bg-black/50 flex items-center justify-center z-50">
                 <div
                   ref={signInRef}
-                  className="relative mx-auto w-full max-w-md bg-purple-950/80  overflow-hidden rounded-lg px-8 pt-14 pb-8 text-center bg-simple-bg backdrop-blur-md"
+                  className="relative mx-auto w-full max-w-md bg-purple-950/80 overflow-hidden rounded-lg px-8 pt-14 pb-8 text-center bg-simple-bg backdrop-blur-md"
                 >
                   <button
                     onClick={() => {
@@ -165,6 +177,12 @@ const Header: React.FC = () => {
                 </div>
               </div>
             )}
+
+            {/* Quick Ban Management Modal */}
+            <QuickBanModal
+              isOpen={isBanModalOpen}
+              onClose={() => setIsBanModalOpen(false)}
+            />
           </div>
         </div>
         {navbarOpen && (
@@ -196,6 +214,17 @@ const Header: React.FC = () => {
               <MobileHeaderLink key={index} item={item} />
             ))}
             <div className="mt-4 flex flex-col space-y-4 w-full">
+              <button
+                onClick={() => {
+                  setIsBanModalOpen(true);
+                  setNavbarOpen(false);
+                }}
+                className="flex items-center justify-center gap-2 bg-red-500/20 border border-red-500/40 text-red-300 px-4 py-2.5 rounded-xl font-bold text-sm"
+              >
+                <Icon icon="solar:shield-warning-bold" className="text-lg" />
+                <span>Ban Option</span>
+              </button>
+
               {user ? (
                 <button
                   onClick={handleLogout}
