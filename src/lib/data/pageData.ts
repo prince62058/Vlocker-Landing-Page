@@ -120,9 +120,10 @@ export const Sociallinkdata: SocialType[] = [
 
 export const Footerlinkdata: FooterType[] = [
   { label: "Home", href: "/" },
-
+  { label: "About Us", href: "/about" },
+  { label: "Privacy Policy", href: "/privacy-policy" },
+  { label: "Terms & Conditions", href: "/terms-and-conditions" },
+  { label: "Documentation", href: "/documentation" },
   { label: "Services", href: "/#services-section" },
   { label: "Features", href: "/#features-section" },
-  { label: "FAQ", href: "/#faq-section" },
-  { label: "Contact Us", href: "/#contact" },
 ];

@@ -99,20 +99,19 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="py-8 px-4 border-t border-t-lightblue">
-        <p className="text-center text-white">
-          {/* @2025 - All Rights Reserved by{" "} */}
-          {/* <Link
-            href="https://getnextjstemplates.com/"
-            target="_blank"
-            className="hover:text-primary"
-          >
-            {" "}
-            GetNextJs Templates.com
-          </Link> */}
-          
-          © 2025 VLocker. All Rights Reserved.
+      <div className="py-8 px-4 border-t border-t-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 container">
+        <p className="text-center sm:text-left text-white/70 text-sm">
+          © {new Date().getFullYear()} VLocker. All Rights Reserved.
         </p>
+        <div className="flex items-center gap-6 text-sm">
+          <Link href="/privacy-policy" className="text-white/60 hover:text-primary transition-colors">
+            Privacy Policy
+          </Link>
+          <span className="text-white/20">•</span>
+          <Link href="/terms-and-conditions" className="text-white/60 hover:text-primary transition-colors">
+            Terms &amp; Conditions
+          </Link>
+        </div>
       </div>
     </footer>
   );

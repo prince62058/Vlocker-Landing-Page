@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import Link from "next/link";
 import Logo from "../../layout/header/logo";
 import { BASE_URL } from "@/lib/utils/api";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -274,7 +275,23 @@ const Signin = ({ onSuccess }: { onSuccess?: () => void }) => {
                             className="mt-1 w-5 h-5 accent-primary cursor-pointer rounded-lg"
                           />
                           <label htmlFor="agree-checkbox" className="text-sm text-lightblue cursor-pointer leading-relaxed">
-                            I agree to the <span className="text-white font-bold hover:text-primary underline transition-colors">Terms & Conditions</span> for secure EMI management.
+                            I agree to the{" "}
+                            <Link
+                              href="/terms-and-conditions"
+                              target="_blank"
+                              className="text-white font-bold hover:text-primary underline transition-colors"
+                            >
+                              Terms &amp; Conditions
+                            </Link>{" "}
+                            and{" "}
+                            <Link
+                              href="/privacy-policy"
+                              target="_blank"
+                              className="text-white font-bold hover:text-primary underline transition-colors"
+                            >
+                              Privacy Policy
+                            </Link>{" "}
+                            for secure EMI management.
                           </label>
                         </div>
                       </div>
